@@ -1,0 +1,21 @@
+Bruke retning og sog og timestamp til å predikere pos og bruke som ekstra feature
+Legge til ekstra feature for om båten ligger til havn 
+Gjøre om latitude og long til 
+Fjerne drittdata
+Legge inn timedelta i stedet for time (?)
+Previous long og lat 
+Is moored i stedet for navstat
+Kombinere cog og sog for å se på hvor de vil og kanskje ha det som previous
+Legge til historisk data. Posisjon for eksempel
+Spørsmål:
+- er det lov å legge til ting i testsettet
+- fire features:
+	delta t
+	forrige retning
+	forrige lat
+	forrige long
+
+Predictors:
+- Ensemble 
+- XGBoost
+- LSTM
