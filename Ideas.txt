@@ -1,0 +1,13 @@
+Ideas:
+- Normalize
+- Could change day_of_week to is_weekend
+- Should fix so that we predict 5 days into the future and not just one
+- Could merge all the "prev course" features into a single estimated value of the current position 
+- Should look at data and try to find some garbage to drop.
+- Should parse ETARAW to datetime format
+	- Can use this feature to get a new feature, "hurry_factor" or something
+- PortID can be wrong and miseleading in some cases, should be careful with this feature. 
+	- Read what is written about this feature
+	- It's used as a proposal to identify the destination or origin port of a vessel’s voyage. 
+- ROT Should be preprocessed. I dont understand the explanation.
+- Could use portID to figure out the location of the destination and add this as a feature

@@ -1,0 +1,36 @@
+First run 100 est: 
+Mean Absolute Error for Latitude: 0.23904359698696692
+Mean Absolute Error for Longitude: 0.523666928419889
+
+With these columns, 100 est (and dropped columns that were not supposed to be there):
+['cog', 'sog', 'rot', 'heading', 'navstat', 'etaRaw', 'latitude',
+       'longitude', 'vesselId', 'portId', 'isMoored', 'prev_lat', 'prev_lon',
+       'prev_speed', 'prev_course', 'prev_rotation', 'prev_heading', 'hour',
+       'day_of_week', 'time_diff_seconds']:
+Mean Absolute Error for Latitude: 0.2384451159914494
+Mean Absolute Error for Longitude: 0.5887789237612383
+	- maybe because I dropped the time column?
+
+Similar to first run, but with 20 estimators:
+Mean Absolute Error for Latitude: 0.242870688522581
+Mean Absolute Error for Longitude: 0.5302335428311601
+
+After adding ROT-related stuff, 20 estimators:
+Mean Absolute Error for Latitude: 0.25099637637150385
+Mean Absolute Error for Longitude: 0.5617021113734176
+
+After fixing mistake from using lat when lon should have been used:
+Mean Absolute Error for Latitude: 0.242870688522581
+Mean Absolute Error for Longitude: 0.5302335428311601 ?????????????????????
+
+Added time_diff_seconds (20 estimators):
+Mean Absolute Error for Latitude: 0.0805960765879864
+Mean Absolute Error for Longitude: 0.13262312206169494 
+	- Significant improvement
+
+Added rot and prev rot related stuff
+
+Removed hour
+
+
+
