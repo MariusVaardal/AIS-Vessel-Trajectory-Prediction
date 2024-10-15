@@ -29,8 +29,37 @@ Mean Absolute Error for Longitude: 0.13262312206169494
 	- Significant improvement
 
 Added rot and prev rot related stuff
+Mean Absolute Error for Latitude: 0.0785444632615485
+Mean Absolute Error for Longitude: 0.11686492982437467
 
 Removed hour
+Mean Absolute Error for Latitude: 0.07764318099856021
+Mean Absolute Error for Longitude: 0.11566410803449756
+
+added turn direction and turn magnitude:
+Mean Absolute Error for Latitude: 0.07841715564495841
+Mean Absolute Error for Longitude: 0.11429093733443674
+
+removed turn dir and mag and removed day of week:
+Mean Absolute Error for Latitude: 0.07653975168849733
+Mean Absolute Error for Longitude: 0.11590977288699636
+
+Removed rot (dont think we have this in the test set) and fixed turn info available:
+Mean Absolute Error for Latitude: 0.07956658789536923
+Mean Absolute Error for Longitude: 0.11908178253875855
+	- Performance went down, but I think It has to be like this
+
+Normalized prev course:
+Mean Absolute Error for Latitude: 0.07953560508405862
+Mean Absolute Error for Longitude: 0.11907415323682076
+	- slight improvement
+
+Normalized prev heading
+Mean Absolute Error for Latitude: 0.07953907911911884
+Mean Absolute Error for Longitude: 0.11907471019289473
+	- almost no difference
+
+
 
 
 

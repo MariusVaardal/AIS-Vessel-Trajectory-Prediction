@@ -11,3 +11,5 @@ Ideas:
 	- It's used as a proposal to identify the destination or origin port of a vessel’s voyage. 
 - ROT Should be preprocessed. I dont understand the explanation.
 - Could use portID to figure out the location of the destination and add this as a feature
+- Just need to make sure that the predictor has seen time-delta values that are large enugh to correspond to five days
+- Can adjust the targets to for example be difference in latitude and difference in longtitude
