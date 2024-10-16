@@ -59,6 +59,11 @@ Mean Absolute Error for Latitude: 0.07953907911911884
 Mean Absolute Error for Longitude: 0.11907471019289473
 	- almost no difference
 
+Added isMoored
+	- got worse for some reason
+
+Used 60 estimators instead of 20 and went to 0.077 and 0.115
+
 
 
 

@@ -13,3 +13,6 @@ Ideas:
 - Could use portID to figure out the location of the destination and add this as a feature
 - Just need to make sure that the predictor has seen time-delta values that are large enugh to correspond to five days
 - Can adjust the targets to for example be difference in latitude and difference in longtitude
+
+0,31.146067,31.146067
+0,31.145171500000004,-81.49864900000001
