@@ -64,6 +64,86 @@ Added isMoored
 
 Used 60 estimators instead of 20 and went to 0.077 and 0.115
 
+Used 600 estimators: About the same as with 60 
+
+After dropping high timedeltas:
+Mean Absolute Error for Latitude: 0.034823511414754094
+Mean Absolute Error for Longitude: 0.04254950914002178
+	- Significant improvement
+	- But it is hard to say, because the hardest prediction problems were removed from the validation set, so the error would be smaller even though the predictor 
+	has not gotten any better. 
+	- Did not work well in kaggle
+
+
+For some reason, the results were better today 
+
+First (5 estimators). Bootstrap = True
+Mean Absolute Error for Latitude: 0.04674688160348816
+Mean Absolute Error for Longitude: 0.0635287310342175
+
+Sat bootstrap to False. Got worse
+Mean Absolute Error for Latitude: 0.049210189933312484
+Mean Absolute Error for Longitude: 0.0715683871110294
+
+min_samples_split from 2 to 5 and bootstrap True
+Mean Absolute Error for Latitude: 0.0481065532344408
+Mean Absolute Error for Longitude: 0.0655323480583811
+
+With these hyperparameters:
+timedelta_threshold_days = 100000000
+test_size = 0.1
+random_state = 42
+model_parameters = {
+    'n_estimators': 20,
+    'max_depth': None,
+    'min_samples_split': 2,
+    'min_samples_leaf': 1,
+    'max_features': 1.0,
+    'bootstrap': True,
+    'verbose': 3,
+    'random state': 42,
+}
+Mean Absolute Error for Latitude: 0.043428654676335415
+Mean Absolute Error for Longitude: 0.06294103189001747
+
+Back to the 143 one 
+With threshold of 10 days:
+Mean Absolute Error for Latitude: 0.05629368531087908
+Mean Absolute Error for Longitude: 0.07531166508013394
+
+
+After adding schedule stuff:
+
+1 estimator:
+Mean Absolute Error for Latitude: 0.056062746630091885
+Mean Absolute Error for Longitude: 0.07938276339188843
+
+10 estimators
+Mean Absolute Error for Latitude: 0.044805286178037806
+Mean Absolute Error for Longitude: 0.06358521873998363
+
+
+Back to the 143 one:
+Mean Absolute Error for Latitude: 0.07953907911911884
+Mean Absolute Error for Longitude: 0.11907471019289473
+
+After adding back the isMoored data:
+Mean Absolute Error for Latitude: 0.043428654676335415
+Mean Absolute Error for Longitude: 0.06294103189001747
+	- but for some reason I dont trust this.... Can try later maybe
+
+
+After using the preprocessed csv:
+70 
+114
+
+After adding the "should be moored" feature:
+
+
+
+
+
+
 
 
 
