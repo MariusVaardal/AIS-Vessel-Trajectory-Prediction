@@ -1,0 +1,41 @@
+results
+wo mov avg:
+Mean Absolute Error for Latitude: 0.18641139752071084
+Mean Absolute Error for Longitude: 0.2950826611131051
+
+3d mavg
+Mean Absolute Error for Latitude: 0.18648525580442227
+Mean Absolute Error for Longitude: 0.2865040796361186
+
+10d mavg
+Mean Absolute Error for Latitude: 0.1764472376502728
+Mean Absolute Error for Longitude: 0.2820642500915659
+
+30d mavg
+Mean Absolute Error for Latitude: 0.17386697191793543
+Mean Absolute Error for Longitude: 0.28039750985411394
+
+100d mavg
+Mean Absolute Error for Latitude: 0.16980891897257344
+Mean Absolute Error for Longitude: 0.27070990063352984
+
+200d mavg
+Mean Absolute Error for Latitude: 0.1706662553131879
+Mean Absolute Error for Longitude: 0.27026929913504577
+
+100d mavg after adding dropna before:
+Mean Absolute Error for Latitude: 0.16930530277044714
+Mean Absolute Error for Longitude: 0.2711128358580174
+
+120d mavg
+Mean Absolute Error for Latitude: 0.16986136704993005
+Mean Absolute Error for Longitude: 0.27086007924388633
+
+
+With squared error as criterion:
+Mean Absolute Error for Latitude: 0.05397404332971477
+Mean Absolute Error for Longitude: 0.08877099618900429
+
+With 100d moving avg in test.ipynb but With squared error:
+Mean Absolute Error for Latitude: 0.045885232620354266
+Mean Absolute Error for Longitude: 0.07486020952209044
