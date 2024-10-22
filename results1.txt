@@ -39,3 +39,27 @@ Mean Absolute Error for Longitude: 0.08877099618900429
 With 100d moving avg in test.ipynb but With squared error:
 Mean Absolute Error for Latitude: 0.045885232620354266
 Mean Absolute Error for Longitude: 0.07486020952209044
+
+3-11 with 15 est and 3 day mavg:
+Mean Absolute Error for Latitude: 0.059709718690664444
+Mean Absolute Error for Longitude: 0.09384142402973561
+
+
+
+inkluder anti
+
+eksporterer til to forskjellige rør. 150 +-10. Varierer sent
+
+7160 - 9400 for alle kompressorene
+
+nært 24 0.5
+
+høyreside av kompressorkart må legges inn som begrensning. Kan legges inn som en soft constraint. Motoren har en begrensning. I modellen har de satt 15 000 nm. Har begrensninger i motoren. Kan hende jeg må ta hensyn til dette. 
+
+Til neste gang: Sammenlign med base-case.
+
+
+På ventilen inn til prosessen kan det variere fra null til hundre.
+Varierende strømpris.
+
+Viktig at separatortrykket er nogenlunde konstant.
