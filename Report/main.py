@@ -71,28 +71,39 @@ def make_training_set(n_shifts):
     
 
 # train1 = make_training_set(1)
-train2 = make_training_set(2)
+# train2 = make_training_set(2)
 train3 = make_training_set(3)
 train4 = make_training_set(4)
 train5 = make_training_set(5)
 train6 = make_training_set(6)
 train7 = make_training_set(7)
-train8 = make_training_set(8)
-train9 = make_training_set(9)
-train10 = make_training_set(10)
-train11 = make_training_set(11)
-train12 = make_training_set(12)
-train13 = make_training_set(13)
-train14 = make_training_set(14)
-train15 = make_training_set(15)
+# train8 = make_training_set(8)
+# train9 = make_training_set(9)
+# train10 = make_training_set(10)
+# train11 = make_training_set(11)
+# train12 = make_training_set(12)
+# train13 = make_training_set(13)
+# train14 = make_training_set(14)
+# train15 = make_training_set(15)
 # train16 = make_training_set(16)
 # train17 = make_training_set(17)
 # train18 = make_training_set(18)
 # train19 = make_training_set(19)
 # train20 = make_training_set(20)
+train21 = make_training_set(21)
+train22 = make_training_set(22)
+train23 = make_training_set(23)
+
+train50 = make_training_set(50)
+train51 = make_training_set(51)
+train52 = make_training_set(52)
+
+train100 = make_training_set(100)
+train101 = make_training_set(101)
+train102 = make_training_set(102)
 
 # train = pd.concat([train8, train9, train10, train11, train12, train13, train14], ignore_index=True)
-train = pd.concat([train2, train3, train4, train5, train6, train7, train8, train9, train10, train11, train12, train13, train14, train15], ignore_index=True)
+train = pd.concat([train3, train4, train5, train6, train7, train21, train22, train23, train50, train51, train52, train100, train101, train102], ignore_index=True)
 
 feats_to_include = ['prev_lat', 'prev_lon', 'prev_speed', 'prev_course','prev_rotation', 'prev_heading', 'time_diff_seconds']
 X = train[feats_to_include]
@@ -102,14 +113,14 @@ y_lon = train['longitude']
 # print(train.sort_values(by=['vesselId', 'time'], inplace=False)[['vesselId', 'prev_speed', '3_day_avg_speed']])
 
 
-X_lat_train, X_lat_val, y_lat_train, y_lat_val = train_test_split(X, y_lat, test_size=0.1, random_state=42)
-X_lon_train, X_lon_val, y_lon_train, y_lon_val = train_test_split(X, y_lon, test_size=0.1, random_state=42)
+X_lat_train, X_lat_val, y_lat_train, y_lat_val = train_test_split(X, y_lat, test_size=0.01, random_state=42)
+X_lon_train, X_lon_val, y_lon_train, y_lon_val = train_test_split(X, y_lon, test_size=0.01, random_state=42)
 
 # Train the model
-model_lat = RandomForestRegressor(n_estimators=15, verbose=3, random_state=42, warm_start=False, criterion='squared_error', max_depth=25)
+model_lat = RandomForestRegressor(n_estimators=15, verbose=3, random_state=17, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
 model_lat.fit(X_lat_train.values, y_lat_train.values)
 
-model_lon = RandomForestRegressor(n_estimators=15, verbose=3, random_state=42, warm_start=False, criterion='squared_error', max_depth=25)
+model_lon = RandomForestRegressor(n_estimators=15, verbose=3, random_state=17, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
 model_lon.fit(X_lon_train.values, y_lon_train.values)
 
 # Make predictions on the validation set
