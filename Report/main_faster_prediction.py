@@ -7,6 +7,9 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 from datetime import timedelta
 
+
+random_seed = 17
+
 timedelta_threshold_seconds = timedelta(days=20).total_seconds()
 
 def make_training_set(n_shifts):
@@ -61,10 +64,10 @@ def make_training_set(n_shifts):
     
 
 train1 = make_training_set(1)
-train2 = make_training_set(2)
-train3 = make_training_set(3)
-train4 = make_training_set(4)
-train5 = make_training_set(5)
+# train2 = make_training_set(2)
+# train3 = make_training_set(3)
+# train4 = make_training_set(4)
+# train5 = make_training_set(5)
 # train6 = make_training_set(6)
 # train7 = make_training_set(7)
 # train8 = make_training_set(8)
@@ -87,120 +90,43 @@ train5 = make_training_set(5)
 # train25 = make_training_set(25)
 # train26 = make_training_set(26)
 
-# train24 = make_training_set(24)
-
-train34 = make_training_set(34)
-
-train44 = make_training_set(44)
-
-train46 = make_training_set(46)
-
-train48 = make_training_set(48)
-
-train50 = make_training_set(50)
+# train50 = make_training_set(50)
 # train51 = make_training_set(51)
-train52 = make_training_set(52)
-# train53 = make_training_set(53)
-train54 = make_training_set(54)
-train55 = make_training_set(55)
-train56 = make_training_set(56)
-# train57 = make_training_set(57)
-train58 = make_training_set(58)
-# train59 = make_training_set(59)
-train60 = make_training_set(60)
-
-train62 = make_training_set(62)
-
-train64 = make_training_set(64)
-
-train74 = make_training_set(74)
-
-train84 = make_training_set(84)
-
-# train60 = make_training_set(60)
-
-# train70 = make_training_set(70)
-# train71 = make_training_set(71)
-# train72 = make_training_set(72)
-# train73 = make_training_set(73)
-# train74 = make_training_set(74)
-# train75 = make_training_set(75)
-
-# train80 = make_training_set(80)
-# train81 = make_training_set(81)
-# train82 = make_training_set(82)
-# train83 = make_training_set(83)
-# train84 = make_training_set(84)
-# train85 = make_training_set(85)
-# train86 = make_training_set(86)
-# train87 = make_training_set(87)
-# train88 = make_training_set(88)
-# train89 = make_training_set(89)
-# train90 = make_training_set(90)
-# train91 = make_training_set(91)
-# train92 = make_training_set(92)
-# train93 = make_training_set(93)
-# train94 = make_training_set(94)
-# train95 = make_training_set(95)
-# train96 = make_training_set(96)
-# train97 = make_training_set(97)
-# train98 = make_training_set(98)
+# train52 = make_training_set(52)
 
 # train100 = make_training_set(100)
 # train101 = make_training_set(101)
 # train102 = make_training_set(102)
-
-# train100 = make_training_set(100)
-# train101 = make_training_set(101)
-# train102 = make_training_set(102)
-# train103 = make_training_set(103)
-# train104 = make_training_set(104)
-# train105 = make_training_set(105)
-# train106 = make_training_set(106)
-# train107 = make_training_set(107)
-# train108 = make_training_set(108)
-# train109 = make_training_set(109)
-# train110 = make_training_set(110)
-# train111 = make_training_set(111)
-# train112 = make_training_set(112)
-# train113 = make_training_set(113)
-# train114 = make_training_set(114)
-# train115 = make_training_set(115)
 
 # train = pd.concat([train8, train9, train10, train11, train12, train13, train14], ignore_index=True)
-train = pd.concat([train1, train2, train3, train4, train5, train34, train44, train46, train48, train50, train52, train54, train55, train56, train58, train60, train62, train64, train74, train84], ignore_index=True)
+# train = pd.concat([train1, train2, train3, train4, train5, train6, train7, train8, train9, train10, train11, train12, train13, train14], ignore_index=True)
+train = pd.concat([train1], ignore_index=True)
 
 feats_to_include = ['prev_lat', 'prev_lon', 'prev_speed', 'prev_course','prev_rotation', 'prev_heading', 'time_diff_seconds']
 X = train[feats_to_include]
-y_lat = train['latitude']
-y_lon = train['longitude']
+print(f"Length of X: {len(X)}")
+y = train[['longitude', 'latitude']]
+print(f"shape of y: {np.shape(y)}")
 
 print(f"Here comes X.describe:\n{X.describe()}")
 
-X_lat_train, X_lat_val, y_lat_train, y_lat_val = train_test_split(X, y_lat, test_size=0.01, random_state=42)
-X_lon_train, X_lon_val, y_lon_train, y_lon_val = train_test_split(X, y_lon, test_size=0.01, random_state=42)
+
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.01, random_state=random_seed)
 
 # Train the model
-model_lat = RandomForestRegressor(n_estimators=15, verbose=3, random_state=17, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
-model_lat.fit(X_lat_train.values, y_lat_train.values)
-
-model_lon = RandomForestRegressor(n_estimators=15, verbose=3, random_state=17, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
-model_lon.fit(X_lon_train.values, y_lon_train.values)
+model = RandomForestRegressor(n_estimators=1, verbose=3, random_state=random_seed, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
+model.fit(X_train.values, y_train.values)
 
 # Make predictions on the validation set
-y_lat_pred_val = model_lat.predict(X_lat_val)
-y_lon_pred_val = model_lon.predict(X_lon_val)
+y_pred_val = model.predict(X_val)
+
+print(f"Length of X_val: {len(X_val)}")
+print(f"y pred validation shape: {np.shape(y_pred_val)}")
 
 # Evaluate performance on the validation set
-mae_lat = mean_absolute_error(y_lat_val, y_lat_pred_val)
-mae_lon = mean_absolute_error(y_lon_val, y_lon_pred_val)
+mae = mean_absolute_error(y_val, y_pred_val)
 
-print(f'Mean Absolute Error for Latitude: {mae_lat}')
-print(f'Mean Absolute Error for Longitude: {mae_lon}')
-
-import pandas as pd
-from tqdm import tqdm
-from datetime import datetime
+print(f'Mean Absolute Error for lon and lat: {mae}')
 
 filepath_train = r'../datasets/ais_train.csv'
 
@@ -208,18 +134,14 @@ filepath_train = r'../datasets/ais_train.csv'
 training_data = pd.read_csv(filepath_train, sep='|')
 training_data['time'] = pd.to_datetime(training_data['time'])
 
-# Predict future positions
-def predict_future_position(id, vessel_id, time):
+
+def make_prediction_set_line(vessel_id, time):
     # Fetch the latest known position of the vessel
     latest_data_points = training_data[training_data['vesselId'] == vessel_id]
     latest_data_points_sorted = latest_data_points.sort_values(by='time')
     
     # Set 'time' as the index to allow for time-based rolling window
-    latest_data_points_sorted = latest_data_points_sorted.set_index('time')
-    
-    # Apply rolling window on 'sog' with a 100-day window
-    latest_data_points_sorted['3_day_avg_speed'] = latest_data_points_sorted['sog'].rolling('3D').mean()
-    
+    latest_data_points_sorted = latest_data_points_sorted.set_index('time')   
     # Get the latest data point
     latest_data_point = latest_data_points_sorted.iloc[-1]
 
@@ -237,14 +159,23 @@ def predict_future_position(id, vessel_id, time):
     }
 
     # Make predictions
-    return id, model_lat.predict([list(new_data.values())])[0], model_lon.predict([list(new_data.values())])[0]
+    return list(new_data.values())
 
 # Open the test file for reading and the prediction file for writing
-with open('../datasets/ais_test.csv', 'r') as f_test, open('../predictions/predictions_2.csv', 'w') as f_pred:
-    f_pred.write("ID,longitude_predicted,latitude_predicted\n")
+prediction_set = []
+ids = []
+with open('../datasets/ais_test.csv', 'r') as f_test:
     for line in tqdm(f_test.readlines()[1:]):
         id, vesselID, time, scaling_factor = line.split(',')
-        id, pred_lat, pred_lon = predict_future_position(id, vesselID, time)
-        f_pred.write(f"{id},{pred_lon},{pred_lat}\n")
+        ids.append(id)
+        prediction_set_line = make_prediction_set_line(vesselID, time)
+        prediction_set.append(prediction_set_line)
+
+prediction_set_np = np.array(prediction_set)
+print(f"Shape of prediction set: {prediction_set.shape}")
+
+predictions = model.predict(prediction_set)
+print(f"Shape of predictions: {np.shape(predictions)}")
+
 
 
