@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 from datetime import timedelta
+import matplotlib.pyplot as plt
 
 timedelta_threshold_seconds = timedelta(days=20).total_seconds()
 
@@ -93,94 +94,171 @@ train7 = make_training_set(7)
 train21 = make_training_set(21)
 train22 = make_training_set(22)
 train23 = make_training_set(23)
+train24 = make_training_set(24)
+train25 = make_training_set(25)
+train26 = make_training_set(26)
 
 train50 = make_training_set(50)
 train51 = make_training_set(51)
 train52 = make_training_set(52)
 
-train100 = make_training_set(100)
-train101 = make_training_set(101)
-train102 = make_training_set(102)
+# train100 = make_training_set(100)
+# train101 = make_training_set(101)
+# train102 = make_training_set(102)
 
 # train = pd.concat([train8, train9, train10, train11, train12, train13, train14], ignore_index=True)
-train = pd.concat([train3, train4, train5, train6, train7, train21, train22, train23, train50, train51, train52, train100, train101, train102], ignore_index=True)
+train = pd.concat([train3, train4, train5, train6, train7, train21, train22, train23, train24, train25, train26, train50, train51, train52], ignore_index=True)
 
 feats_to_include = ['prev_lat', 'prev_lon', 'prev_speed', 'prev_course','prev_rotation', 'prev_heading', 'time_diff_seconds']
 X = train[feats_to_include]
 y_lat = train['latitude']
 y_lon = train['longitude']
 
+print(f"Here comes X.describe:\n{X.describe()}")
+
+X['time_diff_seconds'].plot(kind='kde')
+plt.xlabel('Value')
+plt.title('Density Plot of data_column')
+plt.show()
+
 # print(train.sort_values(by=['vesselId', 'time'], inplace=False)[['vesselId', 'prev_speed', '3_day_avg_speed']])
 
 
-X_lat_train, X_lat_val, y_lat_train, y_lat_val = train_test_split(X, y_lat, test_size=0.01, random_state=42)
-X_lon_train, X_lon_val, y_lon_train, y_lon_val = train_test_split(X, y_lon, test_size=0.01, random_state=42)
 
-# Train the model
-model_lat = RandomForestRegressor(n_estimators=15, verbose=3, random_state=17, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
-model_lat.fit(X_lat_train.values, y_lat_train.values)
 
-model_lon = RandomForestRegressor(n_estimators=15, verbose=3, random_state=17, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
-model_lon.fit(X_lon_train.values, y_lon_train.values)
 
-# Make predictions on the validation set
-y_lat_pred_val = model_lat.predict(X_lat_val)
-y_lon_pred_val = model_lon.predict(X_lon_val)
 
-# Evaluate performance on the validation set
-mae_lat = mean_absolute_error(y_lat_val, y_lat_pred_val)
-mae_lon = mean_absolute_error(y_lon_val, y_lon_pred_val)
 
-print(f'Mean Absolute Error for Latitude: {mae_lat}')
-print(f'Mean Absolute Error for Longitude: {mae_lon}')
 
-import pandas as pd
-from tqdm import tqdm
-from datetime import datetime
 
-filepath_train = r'../datasets/ais_train.csv'
 
-# Load AIS historical data
-training_data = pd.read_csv(filepath_train, sep='|')
-training_data['time'] = pd.to_datetime(training_data['time'])
 
-# Predict future positions
-def predict_future_position(id, vessel_id, time):
-    # Fetch the latest known position of the vessel
-    latest_data_points = training_data[training_data['vesselId'] == vessel_id]
-    latest_data_points_sorted = latest_data_points.sort_values(by='time')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# X_lat_train, X_lat_val, y_lat_train, y_lat_val = train_test_split(X, y_lat, test_size=0.01, random_state=42)
+# X_lon_train, X_lon_val, y_lon_train, y_lon_val = train_test_split(X, y_lon, test_size=0.01, random_state=42)
+
+# # Train the model
+# model_lat = RandomForestRegressor(n_estimators=15, verbose=3, random_state=17, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
+# model_lat.fit(X_lat_train.values, y_lat_train.values)
+
+# model_lon = RandomForestRegressor(n_estimators=15, verbose=3, random_state=17, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
+# model_lon.fit(X_lon_train.values, y_lon_train.values)
+
+# # Make predictions on the validation set
+# y_lat_pred_val = model_lat.predict(X_lat_val)
+# y_lon_pred_val = model_lon.predict(X_lon_val)
+
+# # Evaluate performance on the validation set
+# mae_lat = mean_absolute_error(y_lat_val, y_lat_pred_val)
+# mae_lon = mean_absolute_error(y_lon_val, y_lon_pred_val)
+
+# print(f'Mean Absolute Error for Latitude: {mae_lat}')
+# print(f'Mean Absolute Error for Longitude: {mae_lon}')
+
+# import pandas as pd
+# from tqdm import tqdm
+# from datetime import datetime
+
+# filepath_train = r'../datasets/ais_train.csv'
+
+# # Load AIS historical data
+# training_data = pd.read_csv(filepath_train, sep='|')
+# training_data['time'] = pd.to_datetime(training_data['time'])
+
+# # Predict future positions
+# def predict_future_position(id, vessel_id, time):
+#     # Fetch the latest known position of the vessel
+#     latest_data_points = training_data[training_data['vesselId'] == vessel_id]
+#     latest_data_points_sorted = latest_data_points.sort_values(by='time')
     
-    # Set 'time' as the index to allow for time-based rolling window
-    latest_data_points_sorted = latest_data_points_sorted.set_index('time')
+#     # Set 'time' as the index to allow for time-based rolling window
+#     latest_data_points_sorted = latest_data_points_sorted.set_index('time')
     
-    # Apply rolling window on 'sog' with a 100-day window
-    latest_data_points_sorted['3_day_avg_speed'] = latest_data_points_sorted['sog'].rolling('3D').mean()
+#     # Apply rolling window on 'sog' with a 100-day window
+#     latest_data_points_sorted['3_day_avg_speed'] = latest_data_points_sorted['sog'].rolling('3D').mean()
     
-    # Get the latest data point
-    latest_data_point = latest_data_points_sorted.iloc[-1]
+#     # Get the latest data point
+#     latest_data_point = latest_data_points_sorted.iloc[-1]
 
-    # Prepare the new data for prediction
-    new_data = {
-        'prev_lat': latest_data_point['latitude'],
-        'prev_lon': latest_data_point['longitude'],
-        'prev_speed': latest_data_point['sog'],
-        'prev_course': (latest_data_point['cog'] / 180) - 1,
-        'prev_rotation': latest_data_point['rot'],
-        'prev_heading': (latest_data_point['heading'] / 180) - 1,
+#     # Prepare the new data for prediction
+#     new_data = {
+#         'prev_lat': latest_data_point['latitude'],
+#         'prev_lon': latest_data_point['longitude'],
+#         'prev_speed': latest_data_point['sog'],
+#         'prev_course': (latest_data_point['cog'] / 180) - 1,
+#         'prev_rotation': latest_data_point['rot'],
+#         'prev_heading': (latest_data_point['heading'] / 180) - 1,
 
-        # Use the datetime objects for the time difference
-        'time_diff_seconds': (pd.to_datetime(time) - latest_data_point.name).total_seconds(),  # .name gives the index (time)
-    }
+#         # Use the datetime objects for the time difference
+#         'time_diff_seconds': (pd.to_datetime(time) - latest_data_point.name).total_seconds(),  # .name gives the index (time)
+#     }
 
-    # Make predictions
-    return id, model_lat.predict([list(new_data.values())])[0], model_lon.predict([list(new_data.values())])[0]
+#     # Make predictions
+#     return id, model_lat.predict([list(new_data.values())])[0], model_lon.predict([list(new_data.values())])[0]
 
-# Open the test file for reading and the prediction file for writing
-with open('../datasets/ais_test.csv', 'r') as f_test, open('../predictions/predictions_2.csv', 'w') as f_pred:
-    f_pred.write("ID,longitude_predicted,latitude_predicted\n")
-    for line in tqdm(f_test.readlines()[1:]):
-        id, vesselID, time, scaling_factor = line.split(',')
-        id, pred_lat, pred_lon = predict_future_position(id, vesselID, time)
-        f_pred.write(f"{id},{pred_lon},{pred_lat}\n")
+# # Open the test file for reading and the prediction file for writing
+# with open('../datasets/ais_test.csv', 'r') as f_test, open('../predictions/predictions_2.csv', 'w') as f_pred:
+#     f_pred.write("ID,longitude_predicted,latitude_predicted\n")
+#     for line in tqdm(f_test.readlines()[1:]):
+#         id, vesselID, time, scaling_factor = line.split(',')
+#         id, pred_lat, pred_lon = predict_future_position(id, vesselID, time)
+#         f_pred.write(f"{id},{pred_lon},{pred_lat}\n")
 
 
