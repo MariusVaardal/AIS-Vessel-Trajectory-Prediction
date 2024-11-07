@@ -7,6 +7,8 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 from datetime import timedelta
 
+random_seed = 17
+
 timedelta_threshold_seconds = timedelta(days=20).total_seconds()
 
 def make_training_set(n_shifts):
@@ -172,35 +174,29 @@ train = pd.concat([train1, train2, train3, train4, train5, train6, train7, train
 
 feats_to_include = ['prev_lat', 'prev_lon', 'prev_speed', 'prev_course','prev_rotation', 'prev_heading', 'time_diff_seconds']
 X = train[feats_to_include]
-y_lat = train['latitude']
-y_lon = train['longitude']
+print(f"Length of X: {len(X)}")
+y = train[['longitude', 'latitude']]
+print(f"shape of y: {np.shape(y)}")
 
 print(f"Here comes X.describe:\n{X.describe()}")
 
-X_lat_train, X_lat_val, y_lat_train, y_lat_val = train_test_split(X, y_lat, test_size=0.01, random_state=42)
-X_lon_train, X_lon_val, y_lon_train, y_lon_val = train_test_split(X, y_lon, test_size=0.01, random_state=42)
+
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.01, random_state=random_seed)
 
 # Train the model
-model_lat = RandomForestRegressor(n_estimators=15, verbose=3, random_state=17, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
-model_lat.fit(X_lat_train.values, y_lat_train.values)
-
-model_lon = RandomForestRegressor(n_estimators=15, verbose=3, random_state=17, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
-model_lon.fit(X_lon_train.values, y_lon_train.values)
+model = RandomForestRegressor(n_estimators=1, verbose=3, random_state=random_seed, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
+model.fit(X_train.values, y_train.values)
 
 # Make predictions on the validation set
-y_lat_pred_val = model_lat.predict(X_lat_val)
-y_lon_pred_val = model_lon.predict(X_lon_val)
+y_pred_val = model.predict(X_val)
+
+print(f"Length of X_val: {len(X_val)}")
+print(f"y pred validation shape: {np.shape(y_pred_val)}")
 
 # Evaluate performance on the validation set
-mae_lat = mean_absolute_error(y_lat_val, y_lat_pred_val)
-mae_lon = mean_absolute_error(y_lon_val, y_lon_pred_val)
+mae = mean_absolute_error(y_val, y_pred_val)
 
-print(f'Mean Absolute Error for Latitude: {mae_lat}')
-print(f'Mean Absolute Error for Longitude: {mae_lon}')
-
-import pandas as pd
-from tqdm import tqdm
-from datetime import datetime
+print(f'Mean Absolute Error for lon and lat: {mae}')
 
 filepath_train = r'../datasets/ais_train.csv'
 
@@ -208,18 +204,14 @@ filepath_train = r'../datasets/ais_train.csv'
 training_data = pd.read_csv(filepath_train, sep='|')
 training_data['time'] = pd.to_datetime(training_data['time'])
 
-# Predict future positions
-def predict_future_position(id, vessel_id, time):
+
+def make_prediction_set_line(vessel_id, time):
     # Fetch the latest known position of the vessel
     latest_data_points = training_data[training_data['vesselId'] == vessel_id]
     latest_data_points_sorted = latest_data_points.sort_values(by='time')
     
     # Set 'time' as the index to allow for time-based rolling window
-    latest_data_points_sorted = latest_data_points_sorted.set_index('time')
-    
-    # Apply rolling window on 'sog' with a 100-day window
-    latest_data_points_sorted['3_day_avg_speed'] = latest_data_points_sorted['sog'].rolling('3D').mean()
-    
+    latest_data_points_sorted = latest_data_points_sorted.set_index('time')   
     # Get the latest data point
     latest_data_point = latest_data_points_sorted.iloc[-1]
 
@@ -237,14 +229,23 @@ def predict_future_position(id, vessel_id, time):
     }
 
     # Make predictions
-    return id, model_lat.predict([list(new_data.values())])[0], model_lon.predict([list(new_data.values())])[0]
+    return list(new_data.values())
 
 # Open the test file for reading and the prediction file for writing
-with open('../datasets/ais_test.csv', 'r') as f_test, open('../predictions/predictions_2.csv', 'w') as f_pred:
-    f_pred.write("ID,longitude_predicted,latitude_predicted\n")
+prediction_set = []
+ids = []
+with open('../datasets/ais_test.csv', 'r') as f_test:
     for line in tqdm(f_test.readlines()[1:]):
         id, vesselID, time, scaling_factor = line.split(',')
-        id, pred_lat, pred_lon = predict_future_position(id, vesselID, time)
-        f_pred.write(f"{id},{pred_lon},{pred_lat}\n")
+        ids.append(id)
+        prediction_set_line = make_prediction_set_line(vesselID, time)
+        prediction_set.append(prediction_set_line)
+
+prediction_set_np = np.array(prediction_set)
+print(f"Shape of prediction set: {prediction_set.shape}")
+
+predictions = model.predict(prediction_set)
+print(f"Shape of predictions: {np.shape(predictions)}")
+
 
 
