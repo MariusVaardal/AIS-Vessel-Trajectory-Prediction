@@ -91,33 +91,33 @@ train14 = make_training_set(14)
 
 # train24 = make_training_set(24)
 
-train34 = make_training_set(34)
+# train34 = make_training_set(34)
 
-train44 = make_training_set(44)
+# train44 = make_training_set(44)
 
-train46 = make_training_set(46)
+# train46 = make_training_set(46)
 
-train48 = make_training_set(48)
+# train48 = make_training_set(48)
 
-train50 = make_training_set(50)
+# train50 = make_training_set(50)
 # train51 = make_training_set(51)
-train52 = make_training_set(52)
+# train52 = make_training_set(52)
 # train53 = make_training_set(53)
-train54 = make_training_set(54)
-train55 = make_training_set(55)
-train56 = make_training_set(56)
+# train54 = make_training_set(54)
+# train55 = make_training_set(55)
+# train56 = make_training_set(56)
 # train57 = make_training_set(57)
-train58 = make_training_set(58)
+# train58 = make_training_set(58)
 # train59 = make_training_set(59)
-train60 = make_training_set(60)
+# train60 = make_training_set(60)
 
-train62 = make_training_set(62)
+# train62 = make_training_set(62)
 
-train64 = make_training_set(64)
+# train64 = make_training_set(64)
 
-train74 = make_training_set(74)
+# train74 = make_training_set(74)
 
-train84 = make_training_set(84)
+# train84 = make_training_set(84)
 
 # train60 = make_training_set(60)
 
@@ -169,8 +169,9 @@ train84 = make_training_set(84)
 # train114 = make_training_set(114)
 # train115 = make_training_set(115)
 
-# train = pd.concat([train8, train9, train10, train11, train12, train13, train14], ignore_index=True)
-train = pd.concat([train1, train2, train3, train4, train5, train6, train7, train8, train9, train10, train11, train12, train13, train14, train34, train44, train46, train48, train50, train52, train54, train55, train56, train58, train60, train62, train64, train74, train84], ignore_index=True)
+train = pd.concat([train1, train2, train3, train4, train5, train6, train7, train8, train9, train10, train11, train12, train13, train14], ignore_index=True)
+# train = pd.concat([train1, train2, train3, train4, train5, train6, train7, train8, train9, train10, train11, train12, train13, train14, train34, train44, train46, train48, train50, train52, train54, train55, train56, train58, train60, train62, train64, train74, train84], ignore_index=True)
+# train = pd.concat([train1], ignore_index=True)
 
 feats_to_include = ['prev_lat', 'prev_lon', 'prev_speed', 'prev_course','prev_rotation', 'prev_heading', 'time_diff_seconds']
 X = train[feats_to_include]
@@ -184,7 +185,7 @@ print(f"Here comes X.describe:\n{X.describe()}")
 X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.01, random_state=random_seed)
 
 # Train the model
-model = RandomForestRegressor(n_estimators=1, verbose=3, random_state=random_seed, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
+model = RandomForestRegressor(n_estimators=15, verbose=3, random_state=random_seed, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
 model.fit(X_train.values, y_train.values)
 
 # Make predictions on the validation set
@@ -234,12 +235,12 @@ def make_prediction_set_line(vessel_id, time):
 # Open the test file for reading and the prediction file for writing
 prediction_set = []
 ids = []
-with open('../datasets/ais_test.csv', 'r') as f_test:
-    for line in tqdm(f_test.readlines()[1:]):
-        id, vesselID, time, scaling_factor = line.split(',')
-        ids.append(id)
-        prediction_set_line = make_prediction_set_line(vesselID, time)
-        prediction_set.append(prediction_set_line)
+ais_test = pd.read_csv('../datasets/ais_test.csv')
+for line in tqdm(ais_test):
+    # id, vesselID, time, scaling_factor = ais_test['ID'], ais_test['vesselId'], ais_test['time']
+    ids.append(ais_test['ID'])
+    prediction_set_line = make_prediction_set_line(ais_test['vesselId'], ais_test['time'])
+    prediction_set.append(prediction_set_line)
 
 prediction_set_np = np.array(prediction_set)
 print(f"Shape of prediction set: {prediction_set.shape}")
