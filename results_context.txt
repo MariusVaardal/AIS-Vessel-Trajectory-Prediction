@@ -1,0 +1,44 @@
+Mean Absolute Error for Latitude: 0.11880936918448262
+Mean Absolute Error for Longitude: 0.14760684534642174
+
+Mean Absolute Error for Latitude: 0.07538461155267744
+Mean Absolute Error for Longitude: 0.08733252573515254
+
+Mean Absolute Error for Latitude: 0.12888238252873313
+Mean Absolute Error for Longitude: 0.18185334997577968
+
+3, 100
+Mean Absolute Error for Latitude: 0.061288386474080775
+Mean Absolute Error for Longitude: 0.08196072048585479
+
+4, 50
+Mean Absolute Error for Latitude: 0.06303417247854375
+Mean Absolute Error for Longitude: 0.09671968009522684
+
+4, 100
+Mean Absolute Error for Latitude: 0.04821624037043851
+Mean Absolute Error for Longitude: 0.07226233522815394
+
+4, 150
+Mean Absolute Error for Latitude: 0.044357874517949196
+Mean Absolute Error for Longitude: 0.07280250514780613
+
+4, 200
+Mean Absolute Error for Latitude: 0.045688642898851814
+Mean Absolute Error for Longitude: 0.061939022470844776
+
+4, 300
+Mean Absolute Error for Latitude: 0.03370936619720132
+Mean Absolute Error for Longitude: 0.05738643500347794
+
+1
+Here comes X length: 13589773
+Mean Absolute Error for Latitude: 0.7752820688228765
+Mean Absolute Error for Longitude: 1.3337872454658188
+
+3, 20
+Here comes Xlength:11436856
+Mean Absolute Error for Latitude: 0.391475491155394
+Mean Absolute Error for Longitude: 0.7089211896330037
+
+
