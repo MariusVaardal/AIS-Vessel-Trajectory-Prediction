@@ -186,10 +186,10 @@ X_lat_train, X_lat_val, y_lat_train, y_lat_val = train_test_split(X, y_lat, test
 X_lon_train, X_lon_val, y_lon_train, y_lon_val = train_test_split(X, y_lon, test_size=0.01, random_state=42)
 
 # Train the model
-model_lat = RandomForestRegressor(n_estimators=15, verbose=3, random_state=17, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
+model_lat = RandomForestRegressor(n_estimators=15, verbose=3, random_state=11, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
 model_lat.fit(X_lat_train.values, y_lat_train.values)
 
-model_lon = RandomForestRegressor(n_estimators=15, verbose=3, random_state=17, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
+model_lon = RandomForestRegressor(n_estimators=15, verbose=3, random_state=11, warm_start=False, criterion='squared_error', max_depth=25, n_jobs=-1)
 model_lon.fit(X_lon_train.values, y_lon_train.values)
 
 # Make predictions on the validation set
