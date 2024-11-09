@@ -40,13 +40,13 @@ def make_training_set(n_shifts):
     # Apply the moving average function to each vessel group
     train.dropna(inplace=True)
 
-    # --------------------------------- prev_rot-related stuff
-    # Replace special values with NaN
-    train['prev_rotation'] = train['prev_rotation'].replace({127: np.nan, -127: np.nan, -128: np.nan})
-    train['prev_speed'] = train['prev_speed'].replace({102.3: np.nan})
-    train['prev_course'] = train['prev_course'].replace({360: np.nan})
-    train['prev_heading'] = train['prev_heading'].replace({511: np.nan})
-    train.dropna(inplace=True)
+    # # --------------------------------- prev_rot-related stuff
+    # # Replace special values with NaN
+    # train['prev_rotation'] = train['prev_rotation'].replace({127: np.nan, -127: np.nan, -128: np.nan})
+    # train['prev_speed'] = train['prev_speed'].replace({102.3: np.nan})
+    # train['prev_course'] = train['prev_course'].replace({360: np.nan})
+    # train['prev_heading'] = train['prev_heading'].replace({511: np.nan})
+    # train.dropna(inplace=True)
 
     train = train[train['time_diff_seconds'] <= timedelta_threshold_seconds]
 
