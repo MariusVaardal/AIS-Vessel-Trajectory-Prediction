@@ -8,6 +8,7 @@ from sklearn.metrics import mean_absolute_error
 from datetime import timedelta
 
 timedelta_threshold_seconds = timedelta(days=20).total_seconds()
+feats_to_include = ['prev_lat', 'prev_lon', 'prev_speed', 'prev_course', 'prev_heading', 'time_diff_seconds']
 
 def make_training_set(n_shifts):
     filepath_train = r'../datasets/ais_train.csv'
@@ -38,7 +39,7 @@ def make_training_set(n_shifts):
     train['time_diff'] = train['time'].diff(n_shifts)
     train['time_diff_seconds'] = train['time_diff'].dt.total_seconds()
     # Apply the moving average function to each vessel group
-    train.dropna(inplace=True)
+    # train.dropna(inplace=True)
 
     # # --------------------------------- prev_rot-related stuff
     # # Replace special values with NaN
@@ -54,10 +55,10 @@ def make_training_set(n_shifts):
     # train['prev_rotation'].fillna(method='ffill', inplace=True)
 
     # Drop rows with missing values
-    train.dropna(inplace=True)
+    # train.dropna(inplace=True)
 
     print(f"Length of dataset after preprocessing: {len(train)}")
-    return train
+    return train[feats_to_include + ['latitude', 'longitude']]
     
 
 # train1 = make_training_set(1)
@@ -174,9 +175,11 @@ train152 = make_training_set(152)
 
 # train = pd.concat([train8, train9, train10, train11, train12, train13, train14], ignore_index=True)
 train = pd.concat([train3, train4, train5, train15, train16, train21, train22, train23, train50, train51, train52, train70, train71, train92, train93, train100, train101, train102, train150, train151, train152], ignore_index=True)
+train.dropna(inplace=True)
 
-feats_to_include = ['prev_lat', 'prev_lon', 'prev_speed', 'prev_course','prev_rotation', 'prev_heading', 'time_diff_seconds']
+# feats_to_include = ['prev_lat', 'prev_lon', 'prev_speed', 'prev_course','prev_rotation', 'prev_heading', 'time_diff_seconds']
 X = train[feats_to_include]
+
 y_lat = train['latitude']
 y_lon = train['longitude']
 
@@ -234,7 +237,7 @@ def predict_future_position(id, vessel_id, time):
         'prev_lon': latest_data_point['longitude'],
         'prev_speed': latest_data_point['sog'],
         'prev_course': (latest_data_point['cog'] / 180) - 1,
-        'prev_rotation': latest_data_point['rot'],
+        # 'prev_rotation': latest_data_point['rot'],
         'prev_heading': (latest_data_point['heading'] / 180) - 1,
 
         # Use the datetime objects for the time difference
